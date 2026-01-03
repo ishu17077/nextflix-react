@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Geologica:wght,CRSV@100..900,0&display=swap");
+@import "tailwindcss";
+
+/* @tailwind utilities; */
+
+body{
+    background-color: black;
+    font-family: 'Geologica', 'DM Sans', sans-serif;
+}
