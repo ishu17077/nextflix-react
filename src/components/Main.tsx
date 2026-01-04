@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { TheMovieDBOptions, TheMovieDBRequests } from '../requests/request'
 import axios from 'axios'
+import type { MovieJson } from '../models/movie'
 
 const Main = () => {
-    const [movies, setMovies] = useState([])
+    const [movies, setMovies] = useState<MovieJson[]>([])
 
-    const [movie, setMovie] = useState()
+    const [movie, setMovie] = useState<MovieJson>()
 
     useEffect(() => {
         axios.get(TheMovieDBRequests.requestPopular, TheMovieDBOptions).then((res) => {

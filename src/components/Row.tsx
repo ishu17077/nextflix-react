@@ -3,12 +3,13 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Movie from './Movie'
+import type { MovieJson } from '../models/movie'
 
 
 
 
 const Row = ({ id, title, fetchURL, fetchOptions }: { id: string, title: string, fetchURL: string, fetchOptions: AxiosRequestConfig }) => {
-    const [movies, setMovies] = useState([])
+    const [movies, setMovies] = useState<MovieJson[]>([])
 
     useEffect(() => {
         axios.get(fetchURL, fetchOptions).then((res) => {
@@ -22,7 +23,7 @@ const Row = ({ id, title, fetchURL, fetchOptions }: { id: string, title: string,
     }
 
     const slideRight = () => {
-        const slider = document.getElementById('slider-' +id)
+        const slider = document.getElementById('slider-' + id)
         slider!.scrollLeft = slider!.scrollLeft + 500
     }
     return (
