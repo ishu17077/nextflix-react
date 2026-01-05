@@ -1,9 +1,11 @@
-import React from 'react'
+
 import backgroundImg from '../../public/404-background.png'
 import { Link } from 'react-router-dom'
 
 
+
 const NotFound = () => {
+
     return (
         <>
             <div>

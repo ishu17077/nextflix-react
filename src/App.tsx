@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App(): React.ReactNode {
     return (
@@ -13,10 +14,10 @@ export default function App(): React.ReactNode {
             <AuthContextProvider>
                 <Navbar />
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
-                    <Route path="/account" element={<Account />} />
+                    <Route path="/account" element={<ProtectedRoute> <Account /> </ProtectedRoute>} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </AuthContextProvider>

@@ -43,9 +43,8 @@ export default class MovieItem {
         return movieItem
     }
 
-    public toJSON(): MovieJson {
+    public toJSON(): MovieJsonWithoutId {
         return {
-            id: this._id ?? `${Math.floor(Math.random() * 1000000000 + 92323)}`,
             adult: this.adult,
             backdrop_path: this.backdrop_path,
             genre_ids: this.genre_ids,

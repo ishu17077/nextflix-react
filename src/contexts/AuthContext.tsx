@@ -1,29 +1,31 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import FirebaseMethods from "../requests/firebase_config";
 import type { User, UserCredential } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 
 
-interface AuthContextType {
+export interface AuthContextType {
     user: User | null,
-    signUp: (email: string, password: string) => Promise<UserCredential>,
-    logIn: (email: string, password: string) => Promise<UserCredential>,
-    logOut: (email: string, password: string) => Promise<void>,
+    signUp: (email: string, password: string) => Promise<UserCredential | null>,
+    logIn: (email: string, password: string) => Promise<UserCredential | null>,
+    logOut: () => Promise<void>,
 }
 
 
 
-const AuthContext = createContext<AuthContextType | null>(null)
+const AuthContext = createContext<AuthContextType>(AuthContextProvider.prototype)
 
 
 
 
 export function AuthContextProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null)
+    const navigate = useNavigate()
     const fMeth: FirebaseMethods = new FirebaseMethods()
+    const [user, setUser] = useState<User | null>(fMeth.getUser())
 
     function signUp(email: string, password: string) {
-        return fMeth.signIn({ email: email, password: password })
+        return fMeth.signUp({ email: email, password: password })
     }
 
     function logIn(email: string, password: string) {
@@ -35,8 +37,16 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     }
 
     useEffect(() => {
+        if (user) {
+            navigate("/")
+        }
         const unsubscribe = fMeth.onAuthStateChange((currentUser: User | null) => {
             setUser(currentUser)
+            if (!currentUser) {
+                navigate("/signup")
+            }else{
+                navigate("/")
+            }
         })
 
         return () => {
@@ -51,7 +61,10 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
     </AuthContext.Provider>)
 }
 
-export function UserAuth() {
-
-    return useContext(AuthContext)
+export function UserAuth(): AuthContextType {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("UserAuth mustBe usedWithin an AuthContextProvider");
+    }
+    return context
 }
